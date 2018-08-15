@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PERL_EXIFTOOL
+	bool "perl-exiftool"
+	help
+	  A p
+
+	  https://metacpan.org/release/Image-ExifTool

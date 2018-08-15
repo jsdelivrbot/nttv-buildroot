@@ -1,2 +1,4 @@
 # locally computed hash
 sha256 a75f8bc3219fa3c62637f443cef0196c9eafb90aaa5af094847d007124895822  gst1-imx-0.12.2.tar.gz
+sha256 81e5d9d33aff399590b79abaf50e552c2c58af95c67a5516ef8c8bf76e13db4d  gst1-imx-0.10.1.tar.gz
+sha256 a75f8bc3219fa3c62637f443cef0196c9eafb90aaa5af094847d007124895822  gst1-imx-0.12.3.tar.gz

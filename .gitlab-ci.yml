@@ -1,0 +1,46 @@
+stages:
+  - build
+  - copy
+  
+.build_template: &build_definition
+  script:
+    - make
+    - rm -rf ~/builds/nttv/
+    - mkdir -p ~/builds/nttv/host
+    - mkdir -p ~/builds/nttv/target
+    - cp -r output/host/ ~/builds/nttv/
+    - cp -r output/target/ ~/builds/nttv/
+  stage: build
+  tags:
+    - nttv
+  variables:
+    GIT_SUBMODULE_STRATEGY: "normal"
+  artifacts:
+    name: "NTtvBuildroot_$CI_COMMIT_REF_NAME"
+    paths:
+      - output/images/rootfs.tar
+      - output/target/VERSION
+    expire_in: 99 years
+
+build_buildroot_master:
+  <<: *build_definition
+  only:
+    - master
+    - /^hotfix.*$/
+  except:
+    - web
+      
+build_buildroot_manual:
+  <<: *build_definition
+  only:
+    - web
+
+#buildroot_copy_output:
+#  script:
+#    - cp -r output/ /usr/share/nttv/nttv-buildroot/
+#  stage: copy
+#  tags:
+#    - nttv
+#  only:
+#    - web
+#    - master

@@ -1,0 +1,9 @@
+config BR2_PACKAGE_PYTHON_GPXPY
+	bool "python-gpxpy"
+	help
+	  This is a simple python library for parsing and manipulating
+	  GPX files. GPX is an XML based format for GPS tracks.
+	  
+	  http://www.trackprofiler.com/gpxpy/index.html
+
+

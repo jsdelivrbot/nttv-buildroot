@@ -1,0 +1,11 @@
+--- batman-adv-2016.0/Makefile	2016-04-04 16:40:35.823976827 -0500
++++ batman-adv-2016.0/Makefile	2016-04-04 16:41:24.082912226 -0500
+@@ -69,7 +69,6 @@
+ 
+ install: config
+ 	$(MAKE) -C $(KERNELPATH) $(BUILD_FLAGS) modules_install
+-	depmod -a
+ 
+ config:
+ 	$(PWD)/gen-compat-autoconf.sh $(PWD)/compat-autoconf.h
+

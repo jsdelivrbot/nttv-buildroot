@@ -1,0 +1,4 @@
+config BR2_PACKAGE_GST_RTSP
+	bool "gst-rtsp"
+	help
+	  Gst-RTSP

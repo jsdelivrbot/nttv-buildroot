@@ -209,7 +209,7 @@ endif # BR2_PACKAGE_NGINX_HTTP
 ifeq ($(BR2_PACKAGE_NGINX_MAIL),y)
 NGINX_CONF_OPTS += --with-mail
 
-ifeq ($(BR2_PACKAGE_NGINX_MAIL_SSL_MODULE),y)
+ifeq ($(BR2_PACKAGE_NGINX_MAIL_SSL_MODULE),y)make
 NGINX_DEPENDENCIES += openssl
 NGINX_CONF_OPTS += --with-mail_ssl_module
 endif
@@ -245,6 +245,10 @@ NGINX_CONF_OPTS += $(addprefix --add-module=,$(NGINX_UPLOAD_DIR))
 NGINX_DEPENDENCIES += nginx-upload
 endif
 
+ifeq ($(BR2_PACKAGE_NGINX_RTMP_MODULE),y)
+NGINX_CONF_OPTS += $(addprefix --add-module=,$(NGINX_RTMP_MODULE_DIR))
+NGINX_DEPENDENCIES += nginx-rtmp-module
+endif
 # Debug logging
 NGINX_CONF_OPTS += $(if $(BR2_PACKAGE_NGINX_DEBUG),--with-debug)
 

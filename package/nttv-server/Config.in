@@ -1,0 +1,19 @@
+config BR2_PACKAGE_NTTV_SERVER
+	bool "nttv-server"
+	depends on BR2_INSTALL_LIBSTDCPP 
+	depends on BR2_TOOLCHAIN_USES_GLIBC # glib
+	depends on BR2_PACKAGE_GSTREAMER1 # gstream
+	depends on BR2_PACKAGE_LIBSIGC # SIGCPP
+        depends on BR2_PACKAGE_PROTOBUF # protobuf
+	depends on BR2_PACKAGE_LIBGLIB2 # glib
+        depends on BR2_PACKAGE_ZEROMQ # zmq
+        depends on BR2_PACKAGE_CPPZMQ #cppzmq
+        depends on BR2_PACKAGE_GPSD #gpsd
+        depends on BR2_PACKAGE_PAHO_MQTT_CPP
+      
+
+	help
+	  Kopis's NTtv Server.
+
+comment "NTtv Server needs a toolchain w/ C++ and buncha other stuff"
+	depends on !BR2_INSTALL_LIBSTDCPP

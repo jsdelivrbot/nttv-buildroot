@@ -33,6 +33,8 @@ endif
 # Build libgpsmm if we've got C++
 ifeq ($(BR2_INSTALL_LIBSTDCPP),y)
 GPSD_LDFLAGS += -lstdc++
+GPSD_CFLAGS += -std=gnu++98
+GPSD_CXXFLAGS += -std=gnu++98
 GPSD_SCONS_OPTS += libgpsmm=yes
 else
 GPSD_SCONS_OPTS += libgpsmm=no
@@ -217,11 +219,6 @@ define GPSD_INSTALL_TARGET_CMDS
 		install)
 endef
 
-define GPSD_INSTALL_INIT_SYSV
-	$(INSTALL) -m 0755 -D package/gpsd/S50gpsd $(TARGET_DIR)/etc/init.d/S50gpsd
-	$(SED) 's,^DEVICES=.*,DEVICES=$(BR2_PACKAGE_GPSD_DEVICES),' $(TARGET_DIR)/etc/init.d/S50gpsd
-endef
-
 define GPSD_INSTALL_STAGING_CMDS
 	(cd $(@D); \
 		$(GPSD_SCONS_ENV) \
@@ -230,21 +227,5 @@ define GPSD_INSTALL_STAGING_CMDS
 		$(GPSD_SCONS_OPTS) \
 		install)
 endef
-
-# After installing the udev rule, make it writable so that this
-# package can be re-built/re-installed.
-ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
-define GPSD_INSTALL_UDEV_RULES
-	(cd $(@D); \
-		$(GPSD_SCONS_ENV) \
-		DESTDIR=$(TARGET_DIR) \
-		$(SCONS) \
-		$(GPSD_SCONS_OPTS) \
-		udev-install)
-	chmod u+w $(TARGET_DIR)/lib/udev/rules.d/25-gpsd.rules
-endef
-
-GPSD_POST_INSTALL_TARGET_HOOKS += GPSD_INSTALL_UDEV_RULES
-endif
 
 $(eval $(generic-package))

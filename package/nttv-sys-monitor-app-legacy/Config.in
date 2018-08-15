@@ -1,0 +1,11 @@
+config BR2_PACKAGE_NTTV_SYS_MONITOR_APP_LEGACY
+	bool "nttv-sys-monitor-app-legacy"
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  Kopis's NTTV SYS MON LEGACY APP
+	  -\__(o_o)__/-
+	  --End help message--
+
+comment "Sys Mon App needs a toolchain w/ C++"
+	depends on BR2_INSTALL_LIBSTDCPP
+

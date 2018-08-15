@@ -1,0 +1,151 @@
+--- protobuf-2.6.1/src/google/protobuf/unittest.proto.orig	2016-03-01 14:35:59.091667250 -0600
++++ protobuf-2.6.1/src/google/protobuf/unittest.proto	2016-03-01 14:37:30.443670678 -0600
+@@ -169,13 +169,6 @@
+   optional string default_string_piece = 84 [ctype=STRING_PIECE,default="abc"];
+   optional string default_cord = 85 [ctype=CORD,default="123"];
+ 
+-  // For oneof test
+-  oneof oneof_field {
+-    uint32 oneof_uint32 = 111;
+-    NestedMessage oneof_nested_message = 112;
+-    string oneof_string = 113;
+-    bytes oneof_bytes = 114;
+-  }
+ }
+ 
+ // This proto includes a recusively nested message.
+@@ -607,15 +600,6 @@
+ 
+ // Test oneofs.
+ message TestOneof {
+-  oneof foo {
+-    int32 foo_int = 1;
+-    string foo_string = 2;
+-    TestAllTypes foo_message = 3;
+-    group FooGroup = 4 {
+-      optional int32 a = 5;
+-      optional string b = 6;
+-    }
+-  }
+ }
+ 
+ message TestOneofBackwardsCompatible {
+@@ -629,30 +613,6 @@
+ }
+ 
+ message TestOneof2 {
+-  oneof foo {
+-    int32 foo_int = 1;
+-    string foo_string = 2;
+-    string foo_cord = 3 [ctype=CORD];
+-    string foo_string_piece = 4 [ctype=STRING_PIECE];
+-    bytes foo_bytes = 5;
+-    NestedEnum foo_enum = 6;
+-    NestedMessage foo_message = 7;
+-    group FooGroup = 8 {
+-      optional int32 a = 9;
+-      optional string b = 10;
+-    }
+-    NestedMessage foo_lazy_message = 11 [lazy=true];
+-  }
+-
+-  oneof bar {
+-    int32 bar_int = 12 [default = 5];
+-    string bar_string = 13 [default = "STRING"];
+-    string bar_cord = 14 [ctype=CORD, default = "CORD"];
+-    string bar_string_piece = 15 [ctype=STRING_PIECE, default = "SPIECE"];
+-    bytes bar_bytes = 16 [default = "BYTES"];
+-    NestedEnum bar_enum = 17 [default = BAR];
+-  }
+-
+   optional int32 baz_int = 18;
+   optional string baz_string = 19 [default = "BAZ"];
+ 
+@@ -669,11 +629,6 @@
+ }
+ 
+ message TestRequiredOneof {
+-  oneof foo {
+-    int32 foo_int = 1;
+-    string foo_string = 2;
+-    NestedMessage foo_message = 3;
+-  }
+   message NestedMessage {
+     required double required_double = 1;
+   }
+@@ -850,12 +805,6 @@
+ message FooClientMessage {}
+ message FooServerMessage{}
+ 
+-service TestService {
+-  rpc Foo(FooRequest) returns (FooResponse);
+-  rpc Bar(BarRequest) returns (BarResponse);
+-}
+-
+-
+ message BarRequest  {}
+ message BarResponse {}
+ 
+--- protobuf-2.6.1/src/google/protobuf/unittest_optimize_for.proto.orig	2016-03-01 14:39:18.942207006 -0600
++++ protobuf-2.6.1/src/google/protobuf/unittest_optimize_for.proto	2016-03-01 14:39:51.011104462 -0600
+@@ -51,10 +51,6 @@
+     optional TestRequiredOptimizedForSize test_extension2 = 1235;
+   }
+ 
+-  oneof foo {
+-    int32 integer_field = 2;
+-    string string_field = 3;
+-  }
+ }
+ 
+ message TestRequiredOptimizedForSize {
+--- protobuf-2.6.1/src/google/protobuf/unittest_custom_options.proto.orig	2016-03-01 14:48:40.448836844 -0600
++++ protobuf-2.6.1/src/google/protobuf/unittest_custom_options.proto	2016-03-01 14:48:56.420462310 -0600
+@@ -268,30 +268,6 @@
+   }
+ }
+ 
+-// Note that we try various different ways of naming the same extension.
+-message VariousComplexOptions {
+-  option (.protobuf_unittest.complex_opt1).foo = 42;
+-  option (protobuf_unittest.complex_opt1).(.protobuf_unittest.quux) = 324;
+-  option (.protobuf_unittest.complex_opt1).(protobuf_unittest.corge).qux = 876;
+-  option (protobuf_unittest.complex_opt1).foo4 = 99;
+-  option (protobuf_unittest.complex_opt1).foo4 = 88;
+-  option (complex_opt2).baz = 987;
+-  option (complex_opt2).(grault) = 654;
+-  option (complex_opt2).bar.foo = 743;
+-  option (complex_opt2).bar.(quux) = 1999;
+-  option (complex_opt2).bar.(protobuf_unittest.corge).qux = 2008;
+-  option (complex_opt2).(garply).foo = 741;
+-  option (complex_opt2).(garply).(.protobuf_unittest.quux) = 1998;
+-  option (complex_opt2).(protobuf_unittest.garply).(corge).qux = 2121;
+-  option (ComplexOptionType2.ComplexOptionType4.complex_opt4).waldo = 1971;
+-  option (complex_opt2).fred.waldo = 321;
+-  option (complex_opt2).barney = { waldo: 101 };
+-  option (complex_opt2).barney = { waldo: 212 };
+-  option (protobuf_unittest.complex_opt3).qux = 9;
+-  option (complex_opt3).complexoptiontype5.plugh = 22;
+-  option (complexopt6).xyzzy = 24;
+-}
+-
+ // ------------------------------------------------------
+ // Definitions for testing aggregate option parsing.
+ // See descriptor_unittest.cc.
+--- protobuf-2.6.1/src/google/protobuf/unittest_lite.proto.orig	2016-03-01 14:50:28.810200168 -0600
++++ protobuf-2.6.1/src/google/protobuf/unittest_lite.proto	2016-03-01 14:50:55.313563000 -0600
+@@ -152,13 +152,6 @@
+   optional string default_string_piece = 84 [ctype=STRING_PIECE,default="abc"];
+   optional string default_cord = 85 [ctype=CORD,default="123"];
+ 
+-  // For oneof test
+-  oneof oneof_field {
+-    uint32 oneof_uint32 = 111;
+-    NestedMessage oneof_nested_message = 112;
+-    string oneof_string = 113;
+-    bytes oneof_bytes = 114;
+-  }
+ }
+ 
+ message ForeignMessageLite {
+

@@ -1,0 +1,30 @@
+From 107767b506de69692436205c04a002e5de0f7bee Mon Sep 17 00:00:00 2001
+From: Peter Seiderer <ps.report@gmx.net>
+Date: Sat, 22 Feb 2014 23:22:26 +0100
+Subject: [PATCH] Add kernel headers include path to src/v4l2src compile.
+
+Fixes buildroot compile with newer sysroot kernel headers
+(> 3.10 because of VIDIOC_DBG_G_CHIP_IDENT ioctl removale).
+
+Signed-off-by: Peter Seiderer <ps.report@gmx.net>
+---
+ src/v4l2src/wscript | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/v4l2src/wscript b/src/v4l2src/wscript
+index 0b8fbb1..3013ba7 100644
+--- a/src/v4l2src/wscript
++++ b/src/v4l2src/wscript
+@@ -2,7 +2,9 @@
+ 
+ 
+ def configure(conf):
+-	pass
++	import os
++	if conf.options.kernel_headers:
++		conf.env.append_value('INCLUDES', [os.path.abspath(os.path.expanduser(conf.options.kernel_headers))])
+ 
+ 
+ def build(bld):
+-- 
+1.8.1.4

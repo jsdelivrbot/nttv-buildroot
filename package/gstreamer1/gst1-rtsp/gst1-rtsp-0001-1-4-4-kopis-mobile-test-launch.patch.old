@@ -1,0 +1,26 @@
+--- gst1-rtsp-1.4.4/examples/test-launch.c	2015-05-01 11:59:18.448452930 -0500
++++ gst1-rtsp-1.4.4/examples/test-launch.c	2015-05-01 12:09:39.138046154 -0500
+@@ -47,15 +47,21 @@
+    * that be used to map uri mount points to media factories */
+   mounts = gst_rtsp_server_get_mount_points (server);
+ 
++  if (argc == 3) {
++    gst_rtsp_server_set_service (server, argv[2]);
++  }
++
+   /* make a media factory for a test stream. The default media factory can use
+    * gst-launch syntax to create pipelines.
+    * any launch line works as long as it contains elements named makepay%d. Each
+    * element with pay%d names will be a stream */
+   factory = gst_rtsp_media_factory_new ();
++
++  gst_rtsp_media_factory_set_shared(factory, TRUE);
+   gst_rtsp_media_factory_set_launch (factory, argv[1]);
+ 
+   /* attach the test factory to the /test url */
+-  gst_rtsp_mount_points_add_factory (mounts, "/test", factory);
++  gst_rtsp_mount_points_add_factory (mounts, "/vdb", factory);
+ 
+   /* don't need the ref to the mapper anymore */
+   g_object_unref (mounts);
+

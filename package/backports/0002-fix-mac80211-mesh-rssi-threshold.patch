@@ -1,0 +1,27 @@
+--- a/net/mac80211/mesh_plink.c	2014-10-24 15:48:10.570053697 -0500
++++ b/net/mac80211/mesh_plink.c	2014-09-07 07:32:42.000000000 -0500
+@@ -519,12 +519,17 @@
+ 	if (!sta)
+ 		goto out;
+ 
+-	if (mesh_peer_accepts_plinks(elems) &&
+-	    sta->plink_state == NL80211_PLINK_LISTEN &&
+-	    sdata->u.mesh.accepting_plinks &&
+-	    sdata->u.mesh.mshcfg.auto_open_plinks &&
+-	    rssi_threshold_check(sdata, sta))
+-		changed = mesh_plink_open(sta);
++	if (rssi_threshold_check(sdata, sta)) {
++		if (mesh_peer_accepts_plinks(elems) &&
++			(sta->plink_state == NL80211_PLINK_LISTEN ||
++			 sta->plink_state == NL80211_PLINK_BLOCKED||
++			 sta->plink_state == NL80211_PLINK_ESTAB) &&
++			sdata->u.mesh.accepting_plinks &&
++			sdata->u.mesh.mshcfg.auto_open_plinks) {
++				changed = mesh_plink_open(sta);
++		}
++	} else
++		changed = mesh_plink_deactivate(sta);
+ 
+ 	ieee80211_mps_frame_release(sta, elems);
+ out:
+

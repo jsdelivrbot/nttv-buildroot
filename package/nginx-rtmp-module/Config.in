@@ -1,0 +1,7 @@
+config BR2_PACKAGE_NGINX_RTMP_MODULE
+	bool "nginx-rtmp-module"
+	depends on BR2_PACKAGE_NGINX
+	select BR2_PACKAGE_NGINX_HTTP_SSL_MODULE
+	select BR2_PACKAGE_RTMPDUMP
+	help
+      RTMP Modules for NGINX

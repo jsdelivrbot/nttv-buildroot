@@ -1,0 +1,11 @@
+--- host-protobuf-c-v1.0.0/t/test-full.proto.orig	2016-02-24 22:47:38.937381892 -0600
++++ host-protobuf-c-v1.0.0/t/test-full.proto	2016-02-24 22:51:33.659073747 -0600
+@@ -37,6 +37,7 @@
+   VALUE268435456 = 268435456;
+ }
+ enum TestEnumDupValues {
++ option allow_alias = true;
+   VALUE_A = 42;
+   VALUE_B = 42;
+   VALUE_C = 42;
+

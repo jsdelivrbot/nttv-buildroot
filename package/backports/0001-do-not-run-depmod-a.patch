@@ -1,0 +1,19 @@
+--- backports-3.16.2/Makefile.real.orig	2016-04-04 17:50:24.782050120 -0500
++++ backports-3.16.2/Makefile.real	2016-04-04 17:50:58.645352323 -0500
+@@ -95,7 +95,6 @@
+ 	@./scripts/blacklist.sh $(KLIB)/ $(KLIB)/$(KMODDIR)
+ 	@./scripts/compress_modules.sh $(KLIB)/$(KMODDIR)
+ 	@./scripts/check_depmod.sh
+-	@/sbin/depmod -a
+ 	@./scripts/update-initramfs.sh $(KLIB)
+ 	@echo
+ 	@echo Your backported driver modules should be installed now.
+@@ -108,7 +107,6 @@
+ .PHONY: uninstall
+ uninstall:
+ 	@./scripts/uninstall.sh
+-	@/sbin/depmod -a
+ 	@./scripts/update-initramfs.sh $(KLIB)
+ 	@echo
+ 	@echo Your backported driver modules should be uninstalled now.
+

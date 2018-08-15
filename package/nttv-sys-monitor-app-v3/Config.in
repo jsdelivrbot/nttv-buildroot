@@ -1,0 +1,12 @@
+config BR2_PACKAGE_NTTV_SYS_MONITOR_APP_V3
+	bool "nttv-sys-monitor-app-v3"
+	select BR2_PACKAGE_ZEROMQ
+	depends on BR2_PACKAGE_LIBPTHREAD_STUBS # pthread?
+	depends on BR2_INSTALL_LIBSTDCPP # zeromq, protobuf
+	help
+	  Kopis's NTTV SYS MON APP
+	  -\__(o_o)__/-
+	  --End help message--
+
+comment "Sys Mon App 3 needs a toolchain w/ C++"
+	depends on BR2_INSTALL_LIBSTDCPP

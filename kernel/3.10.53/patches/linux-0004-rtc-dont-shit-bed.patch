@@ -1,0 +1,25 @@
+--- a/drivers/rtc/rtc-isl1208.c	2015-10-01 17:02:35.814198892 -0500
++++ b/drivers/rtc/rtc-isl1208.c	2015-10-01 17:03:36.266201615 -0500
+@@ -709,15 +709,15 @@
+ 	if (rc & ISL1208_REG_SR_RTCF) {
+                 dev_warn(&client->dev, "rtc power failure detected, "
+                          "please set clock.\n");
+-		regs[0] = 0x90;
+-                isl1208_i2c_set_regs(client, ISL1208_REG_SR, regs, 1);
+-                regs[0] = 0;
+-		isl1208_i2c_set_regs(client, 0, regs, sizeof(regs));
++	regs[0] = 0x90;
++    isl1208_i2c_set_regs(client, ISL1208_REG_SR, regs, 1);
++        //regs[0] = 0;
++		//isl1208_i2c_set_regs(client, 0, regs, sizeof(regs));
+ 	}
+ 
+ 	rc = sysfs_create_group(&client->dev.kobj, &isl1208_rtc_sysfs_files);
+-	if (rc)
+-		goto exit_unregister;
++	//if (rc)
++	//	goto exit_unregister;
+ 
+ 	return 0;
+ 
+

@@ -16,6 +16,9 @@ config BR2_PACKAGE_BATMAN_ADV_DEBUG
 	help
 	  Enables B.A.T.M.A.N. debugging.
 
+config BR2_PACKAGE_BATMAN_ADV_BLA
+        bool "build batman-adv with bridge loop avoidance"
+
 config BR2_PACKAGE_BATMAN_ADV_NC
 	bool "enable network coding"
 	help
@@ -23,6 +26,12 @@ config BR2_PACKAGE_BATMAN_ADV_NC
 	  Note: this requires promiscuous mode on ALL nodes!
 
 	  https://www.open-mesh.org/projects/batman-adv/wiki/NetworkCoding
+
+config BR2_PACKAGE_BATMAN_ADV_DAT
+        bool "build batman-adv with distributed ARP table"
+
+config BR2_PACKAGE_BATMAN_ADV_NC
+        bool "build batman-adv with network coding"
 
 config BR2_PACKAGE_BATMAN_ADV_BATMAN_V
 	bool "enable B.A.T.M.A.N. V protocol (experimental)"
@@ -33,3 +42,6 @@ config BR2_PACKAGE_BATMAN_ADV_BATMAN_V
 	  https://www.open-mesh.org/projects/batman-adv/wiki/BATMAN_V
 
 endif
+
+comment "batman-adv needs a kernel"
+	depends on !BR2_LINUX_KERNEL

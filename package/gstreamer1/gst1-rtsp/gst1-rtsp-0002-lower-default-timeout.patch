@@ -1,0 +1,12 @@
+--- gst1-rtsp-1.4.5/gst/rtsp-server/rtsp-session.c	2016-04-06 11:25:36.754285379 -0500
++++ gst1-rtsp-1.4.5/gst/rtsp-server/rtsp-session.c	2016-04-06 11:25:52.309908446 -0500
+@@ -67,7 +67,7 @@
+ 
+ #undef DEBUG
+ 
+-#define DEFAULT_TIMEOUT	       60
++#define DEFAULT_TIMEOUT	       20
+ #define DEFAULT_ALWAYS_VISIBLE  FALSE
+ 
+ enum
+

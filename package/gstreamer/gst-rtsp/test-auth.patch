@@ -1,0 +1,69 @@
+--- a/examples/test-auth.c	2011-01-12 06:36:30.000000000 -0600
++++ b/examples/test-auth.c	2014-02-04 12:45:21.468784489 -0600
+@@ -46,6 +46,13 @@
+ 
+   gst_init (&argc, &argv);
+ 
++  if (argc < 2) {
++    g_print ("usage: %s <launch line> \n"
++        "example: %s \"( videotestsrc ! x264enc ! rtph264pay name=pay0 pt=96 )\"\n",
++        argv[0], argv[0]);
++    return -1;
++  }
++  
+   loop = g_main_loop_new (NULL, FALSE);
+ 
+   /* create a server instance */
+@@ -55,42 +62,28 @@
+    * that be used to map uri mount points to media factories */
+   mapping = gst_rtsp_server_get_media_mapping (server);
+ 
+-
++  if (argc == 3) {
++    gst_rtsp_server_set_service (server, argv[2]);
++  }
++  
+   /* make a media factory for a test stream. The default media factory can use
+    * gst-launch syntax to create pipelines. 
+    * any launch line works as long as it contains elements named pay%d. Each
+    * element with pay%d names will be a stream */
+   factory = gst_rtsp_media_factory_new ();
+-  gst_rtsp_media_factory_set_launch (factory, "( "
+-      "videotestsrc ! video/x-raw-yuv,width=352,height=288,framerate=15/1 ! "
+-      "x264enc ! rtph264pay name=pay0 pt=96 "
+-      "audiotestsrc ! audio/x-raw-int,rate=8000 ! "
+-      "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
+-
+-  /* make a new authentication manager */
+-  auth = gst_rtsp_auth_new ();
+-  basic = gst_rtsp_auth_make_basic ("user", "admin");
+-  gst_rtsp_auth_set_basic (auth, basic);
+-  g_free (basic);
+-  gst_rtsp_media_factory_set_auth (factory, auth);
+-  g_object_unref (auth);
+-  /* attach the test factory to the /test url */
+-  gst_rtsp_media_mapping_add_factory (mapping, "/test", factory);
+-
+-  /* make another factory */
+-  factory = gst_rtsp_media_factory_new ();
+-  gst_rtsp_media_factory_set_launch (factory, "( "
+-      "videotestsrc ! video/x-raw-yuv,width=352,height=288,framerate=30/1 ! "
+-      "x264enc ! rtph264pay name=pay0 pt=96 )");
++  gst_rtsp_media_factory_set_launch (factory, argv[1]);
++  
++  gst_rtsp_media_factory_set_shared ( GST_RTSP_MEDIA_FACTORY (factory), TRUE);
++  
+   /* make a new authentication manager */
+   auth = gst_rtsp_auth_new ();
+-  basic = gst_rtsp_auth_make_basic ("user2", "admin2");
++  basic = gst_rtsp_auth_make_basic ("nttvuser", "Q6IFlN795agajpmScRWV");
+   gst_rtsp_auth_set_basic (auth, basic);
+   g_free (basic);
+   gst_rtsp_media_factory_set_auth (factory, auth);
+   g_object_unref (auth);
+   /* attach the test factory to the /test url */
+-  gst_rtsp_media_mapping_add_factory (mapping, "/test2", factory);
++  gst_rtsp_media_mapping_add_factory (mapping, "/vdb_auth", factory);
+ 
+   /* don't need the ref to the mapper anymore */
+   g_object_unref (mapping);

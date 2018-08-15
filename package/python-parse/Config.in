@@ -1,0 +1,7 @@
+config BR2_PACKAGE_PYTHON_PARSE
+	bool "python-parse"
+	depends on BR2_PACKAGE_PYTHON
+	help
+	  python-parse is a package to utilize the parse web service for device tracking.
+
+

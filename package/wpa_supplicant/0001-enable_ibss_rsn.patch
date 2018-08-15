@@ -1,0 +1,16 @@
+--- wpa_supplicant-2.4/wpa_supplicant/Makefile.orig	2016-03-31 16:06:20.858021629 -0500
++++ wpa_supplicant-2.4/wpa_supplicant/Makefile	2016-03-31 16:05:29.211458809 -0500
+@@ -268,11 +268,11 @@
+ CFLAGS += -DCONFIG_NO_WPA
+ endif
+ 
+-ifdef CONFIG_IBSS_RSN
++
+ NEED_RSN_AUTHENTICATOR=y
+ CFLAGS += -DCONFIG_IBSS_RSN
+ OBJS += ibss_rsn.o
+-endif
++
+ 
+ ifdef CONFIG_P2P
+ OBJS += p2p_supplicant.o

@@ -1,0 +1,25 @@
+--- gst1-rtsp-1.5.90/examples/test-launch.c.orig	2015-09-09 10:33:46.927890537 -0500
++++ gst1-rtsp-1.5.90/examples/test-launch.c	2015-09-09 10:33:32.707889897 -0500
+@@ -66,10 +66,11 @@
+    * any launch line works as long as it contains elements named pay%d. Each
+    * element with pay%d names will be a stream */
+   factory = gst_rtsp_media_factory_new ();
++  gst_rtsp_media_factory_set_shared(factory, TRUE);
+   gst_rtsp_media_factory_set_launch (factory, argv[1]);
+ 
+   /* attach the test factory to the /test url */
+-  gst_rtsp_mount_points_add_factory (mounts, "/test", factory);
++  gst_rtsp_mount_points_add_factory (mounts, "/vdb", factory);
+ 
+   /* don't need the ref to the mapper anymore */
+   g_object_unref (mounts);
+@@ -78,7 +79,7 @@
+   gst_rtsp_server_attach (server, NULL);
+ 
+   /* start serving */
+-  g_print ("stream ready at rtsp://127.0.0.1:%s/test\n", port);
++  g_print ("stream ready at rtsp://127.0.0.1:%s/vdb\n", port);
+   g_main_loop_run (loop);
+ 
+   return 0;
+

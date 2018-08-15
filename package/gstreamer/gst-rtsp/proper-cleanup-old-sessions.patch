@@ -1,0 +1,14 @@
+--- a/gst/rtsp-server/rtsp-client.c	2011-08-05 07:48:26.742988486 -0400
++++ b/gst/rtsp-server/rtsp-client.c	2011-08-04 16:48:18.109986945 -0400
+@@ -121,8 +121,10 @@
+ 
+   /* unlink all media managed in this session */
+   for (medias = session->medias; medias; medias = g_list_next (medias)) {
+-    unlink_session_streams (client, session,
+-        (GstRTSPSessionMedia *) medias->data);
++    gst_rtsp_session_media_set_state ((GstRTSPSessionMedia *) medias->data, GST_STATE_NULL);
++    unlink_session_streams (client, session, (GstRTSPSessionMedia *) medias->data);
++    /* unmanage the media in the session. */
++    gst_rtsp_session_release_media (session, (GstRTSPSessionMedia *) medias->data);
+   }
+ }

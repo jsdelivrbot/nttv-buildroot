@@ -1,0 +1,62 @@
+--- gst1-rtsp-1.4.5/examples/test-launch.c	2016-04-01 13:22:30.016319116 -0500
++++ gst1-rtsp-1.4.5/examples/test-launch.c	2016-04-01 13:23:04.223603610 -0500
+@@ -21,6 +21,21 @@
+ 
+ #include <gst/rtsp-server/rtsp-server.h>
+ 
++/* this timeout is periodically run to clean up the expired sessions from the
++ * pool. This needs to be run explicitly currently but might be done
++ * automatically as part of the mainloop. */
++static gboolean
++timeout (GstRTSPServer * server, gboolean ignored)
++{
++  GstRTSPSessionPool *pool;
++
++  pool = gst_rtsp_server_get_session_pool (server);
++  gst_rtsp_session_pool_cleanup (pool);
++  g_object_unref (pool);
++
++  return TRUE;
++}
++
+ int
+ main (int argc, char *argv[])
+ {
+@@ -47,24 +62,33 @@
+    * that be used to map uri mount points to media factories */
+   mounts = gst_rtsp_server_get_mount_points (server);
+ 
++  if (argc == 3) {
++    gst_rtsp_server_set_service (server, argv[2]);
++  }
++
+   /* make a media factory for a test stream. The default media factory can use
+    * gst-launch syntax to create pipelines.
+    * any launch line works as long as it contains elements named pay%d. Each
+    * element with pay%d names will be a stream */
+   factory = gst_rtsp_media_factory_new ();
++
++  gst_rtsp_media_factory_set_shared(factory, TRUE);
+   gst_rtsp_media_factory_set_launch (factory, argv[1]);
+ 
+   /* attach the test factory to the /test url */
+-  gst_rtsp_mount_points_add_factory (mounts, "/test", factory);
++  gst_rtsp_mount_points_add_factory (mounts, "/vdb", factory);
+ 
+   /* don't need the ref to the mapper anymore */
+   g_object_unref (mounts);
+ 
+   /* attach the server to the default maincontext */
+   gst_rtsp_server_attach (server, NULL);
+-
++  
++  /* add a timeout for the session cleanup */
++  g_timeout_add_seconds (2, (GSourceFunc) timeout, server);
++  
+   /* start serving */
+-  g_print ("stream ready at rtsp://127.0.0.1:8554/test\n");
++  g_print ("stream ready at rtsp://127.0.0.1:8554/vdb\n");
+   g_main_loop_run (loop);
+ 
+   return 0;
+

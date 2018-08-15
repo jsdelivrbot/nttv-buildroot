@@ -1,0 +1,26 @@
+--- a/examples/test-launch.c	2010-12-13 04:40:55.000000000 -0600
++++ b/examples/test-launch.c	2013-09-13 22:42:52.217464064 -0500
+@@ -47,6 +47,10 @@
+    * that be used to map uri mount points to media factories */
+   mapping = gst_rtsp_server_get_media_mapping (server);
+ 
++  if (argc == 3) {
++    gst_rtsp_server_set_service (server, argv[2]);
++  }
++
+   /* make a media factory for a test stream. The default media factory can use
+    * gst-launch syntax to create pipelines. 
+    * any launch line works as long as it contains elements named pay%d. Each
+@@ -54,8 +58,10 @@
+   factory = gst_rtsp_media_factory_new ();
+   gst_rtsp_media_factory_set_launch (factory, argv[1]);
+ 
+-  /* attach the test factory to the /test url */
+-  gst_rtsp_media_mapping_add_factory (mapping, "/test", factory);
++  gst_rtsp_media_factory_set_shared ( GST_RTSP_MEDIA_FACTORY (factory), TRUE);
++
++  /* attach the vdb factory to the /vdb url */
++  gst_rtsp_media_mapping_add_factory (mapping, "/vdb", factory);
+ 
+   /* don't need the ref to the mapper anymore */
+   g_object_unref (mapping);
